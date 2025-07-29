@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Warehouse Stock & Billing System</title>
+  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+</head>
+<body class="bg-gray-100 font-sans">
+  <!-- Navigation Bar -->
+  <nav class="bg-blue-800 text-white p-4 shadow-md flex justify-between items-center">
+    <h1 class="text-2xl font-bold">📦 JSM Warehouse</h1>
+    <ul class="flex space-x-4">
+      <li><a href="#" class="hover:underline">Dashboard</a></li>
+      <li><a href="#" class="hover:underline">Import</a></li>
+      <li><a href="#" class="hover:underline">Export</a></li>
+      <li><a href="#"  class="hover:underline">Inventory</a></li>
+      <li><a href="#" class="hover:underline">Reports</a></li>
+      <li><a href="#" class="hover:underline">Billing</a></li>
+      <li><button onclick="toggleLogin()" class="bg-white text-blue-800 px-3 py-1 rounded">Login</button></li>
+    </ul>
+  </nav>
+
+  <!-- Login Modal -->
+  <div id="loginModal" class="md-hidden fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center">
+    <div class="bg-white p-6 rounded-xl w-80">
+      <h2 class="text-xl font-bold mb-4">Login</h2>
+      <input type="text" id="username" placeholder="Username" class="w-full p-2 mb-3 border rounded">
+      <input type="password" id="password" placeholder="Password" class="w-full p-2 mb-4 border rounded">
+      <button onclick="login()" class="bg-blue-600 text-white px-4 py-2 rounded w-full">Submit</button>
+      <button onclick="toggleLogin()" class="mt-2 text-blue-600 w-full">Cancel</button>
+    </div>
+  </div>
+
+  <!-- Import Entry Form -->
+  <section class="p-6 max-w-6xl mx-auto">
+    <h2 class="text-2xl font-semibold mb-4">➕ Import Entry</h2>
+    <div class="bg-white p-4 rounded-xl shadow-md">
+      <input id="billofentry" type="text" placeholder="Bill of Entry" class="border p-2 mr-2 mb-2 rounded" />
+      <input id="billofentrydate" type="text" placeholder="Bill of Entry Date" class="border p-2 mr-2 mb-2 rounded" />
+      <input id="bondno." type="text" placeholder="Bond No." class="border p-2 mr-2 mb-2 rounded" />
+      <input id="whdate" type="text" placeholder="WH Date" class="border p-2 mr-2 mb-2 rounded" />
+      <input id="expiry" type="text" placeholder="Expiry Date" class="border p-2 mr-2 mb-2 rounded" />
+      <input id="itemName" type="text" placeholder="Item Name" class="border p-2 mr-2 mb-2 rounded" />
+      <input id="inStock" type="number" placeholder="Opening Stock" class="border p-2 mr-2 mb-2 rounded" />
+      <input id="assvalue" type="number" placeholder="Ass. Value" class="border p-2 mr-2 mb-2 rounded" />
+      <input id="customduty" type="number" placeholder="Custom Duty" class="border p-2 mr-2 mb-2 rounded" />
+      <input id="price" type="number" placeholder="Price" class="border p-2 mr-2 mb-2 rounded" />
+      <button onclick="addNewItem()" class="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700">Add Entry</button>
+    </div>
+  </section>
+
+  <!-- Inventory Table -->
+  <section class="p-6 max-w-6xl mx-auto">
+    <h2 class="text-2xl font-semibold mb-4">📊 Inventory Summary</h2>
+    <table class="w-full bg-white rounded-xl shadow-md overflow-hidden">
+      <thead class="bg-blue-600 text-white">
+        <tr>
+          <th class="p-3 text-left">Item</th>
+          <th class="p-3 text-left">Opening Stock</th>
+          <th class="p-3 text-left">In Stock</th>
+          <th class="p-3 text-left">Out Stock</th>
+          <th class="p-3 text-left">Balance</th>
+          <th class="p-3 text-left">Price</th>
+          <th class="p-3 text-left">Action</th>
+        </tr>
+      </thead>
+      <tbody id="stock-table" class="text-gray-800">
+        <!-- Rows added by JavaScript -->
+      </tbody>
+    </table>
+  </section>
+
+  <!-- Billing Section -->
+  <section class="p-6 max-w-6xl mx-auto">
+    <h2 class="text-2xl font-semibold mb-4">🧾 Billing</h2>
+    <div id="billing-list" class="bg-white rounded-xl shadow-md p-4"></div>
+  </section>
+
+  <footer class="bg-blue-800 text-white text-center p-4 mt-6">
+    <p>&copy; 2025 WarehouseSystem. All rights reserved.</p>
+  </footer>
+
+  <script>
+    const inventory = [
+      { item: "Earphone - A", opening: 100, inStock: 50, outStock: 30, price: 799 },
+      { item: "Earphone - B", opening: 80, inStock: 20, outStock: 10, price: 599 },
+      { item: "Earphone - C", opening: 200, inStock: 0, outStock: 20, price: 349 },
+    ];
+
+    const stockTable = document.getElementById("stock-table");
+    const billingList = document.getElementById("billing-list");
+
+    function renderInventory() {
+      stockTable.innerHTML = "";
+      inventory.forEach((product, index) => {
+        const balance = product.opening + product.inStock - product.outStock;
+        const row = document.createElement("tr");
+        row.innerHTML = `
+          <td class="p-3">${product.item}</td>
+          <td class="p-3">${product.opening}</td>
+          <td class="p-3">${product.inStock}</td>
+          <td class="p-3">${product.outStock}</td>
+          <td class="p-3">${balance}</td>
+          <td class="p-3">₹${product.price}</td>
+          <td class="p-3">
+            <button onclick="addToBill(${index})" class="bg-green-500 text-white px-3 py-1 rounded hover:bg-green-600">Add to Bill</button>
+          </td>
+        `;
+        stockTable.appendChild(row);
+      });
+    }
+
+    function addNewItem() {
+      const item = document.getElementById("itemName").value;
+      const opening = parseInt(document.getElementById("openingStock").value);
+      const inStock = parseInt(document.getElementById("inStock").value);
+      const outStock = parseInt(document.getElementById("outStock").value);
+      const price = parseFloat(document.getElementById("price").value);
+
+      if (!item || isNaN(opening) || isNaN(inStock) || isNaN(outStock) || isNaN(price)) {
+        alert("Please fill out all fields correctly.");
+        return;
+      }
+
+      inventory.push({ item, opening, inStock, outStock, price });
+      renderInventory();
+
+      document.getElementById("itemName").value = "";
+      document.getElementById("openingStock").value = "";
+      document.getElementById("inStock").value = "";
+      document.getElementById("outStock").value = "";
+      document.getElementById("price").value = "";
+    }
+
+    function addToBill(index) {
+      const item = inventory[index];
+      const entry = document.createElement("div");
+      entry.className = "mb-2 border-b pb-2";
+      entry.innerHTML = `<p><strong>${item.item}</strong> — ₹${item.price}</p>`;
+      billingList.appendChild(entry);
+    }
+
+    function toggleLogin() {
+      const modal = document.getElementById("loginModal");
+      modal.classList.toggle("hidden");
+    }
+
+    function login() {
+      const username = document.getElementById("username").value;
+      const password = document.getElementById("password").value;
+      if (username === "admin" && password === "admin") {
+        alert("Login successful!");
+        toggleLogin();
+      } else {
+        alert("Invalid credentials");
+      }
+    }
+
+    let el = document.querySelector('ul')
+    
+    renderInventory();
+  </script>
+</body>
+</html>

@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+  <meta charset="UTF-8" />
+  <title>Warehouse Inventory System</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="./src/output.css">
+</head>
+<body class="bg-gray-100 min-h-screen">
+  <div class="max-w-4xl mx-auto mt-10 px-4">
+    <!-- Login Box -->
+    <div id="loginBox" class="bg-white rounded shadow p-6">
+      <h1 class="text-2xl font-bold text-center mb-4">Login</h1>
+      <input type="text" id="username" placeholder="Username (admin)" class="border p-2 w-full mb-2">
+      <input type="password" id="password" placeholder="Password (1234)" class="border p-2 w-full mb-4">
+      <button onclick="login()" class="bg-blue-600 text-white w-full py-2 rounded">Login</button>
+    </div>
+
+    <!-- Main App -->
+    <div id="mainApp" class="bg-white rounded shadow p-6 hidden">
+      <h1 class="text-2xl font-bold text-center mb-6">Warehouse Inventory</h1>
+      <nav class="flex flex-wrap gap-2 justify-center mb-6">
+        <button onclick="loadSection('open')" class="bg-blue-500 text-white px-4 py-2 rounded">Opening Stock</button>
+        <button onclick="loadSection('in')" class="bg-blue-500 text-white px-4 py-2 rounded">In Stock</button>
+        <button onclick="loadSection('out')" class="bg-blue-500 text-white px-4 py-2 rounded">Out Stock</button>
+        <button onclick="loadSection('report')" class="bg-blue-500 text-white px-4 py-2 rounded">Report</button>
+        <button onclick="loadSection('dates')" class="bg-blue-500 text-white px-4 py-2 rounded">Date Table</button>
+        <button onclick="logout()" class="bg-red-500 text-white px-4 py-2 rounded">Logout</button>
+      </nav>
+      <div id="sectionContent"></div>
+    </div>
+  </div>
+
+  <!-- JavaScript -->
+  <script>
+    window.onload = function () {
+      if (localStorage.getItem("loggedIn") === "true") {
+        document.getElementById("loginBox").classList.add("hidden");
+        document.getElementById("mainApp").classList.remove("hidden");
+      } else {
+        document.getElementById("loginBox").classList.remove("hidden");
+      }
+    };
+
+    function login() {
+      const u = document.getElementById("username").value;
+      const p = document.getElementById("password").value;
+      if (u === "admin" && p === "1234") {
+        localStorage.setItem("loggedIn", "true");
+        location.reload();
+      } else {
+        alert("Invalid credentials");
+      }
+    }
+
+    function logout() {
+      localStorage.removeItem("loggedIn");
+      location.reload();
+    }
+
+    function loadSection(type) {
+      let html = "";
+      if (["open", "in", "out"].includes(type)) {
+        html += `<h2 class="text-xl font-semibold mb-4">${type.toUpperCase()} Stock</h2>
+          <input type="text" id="itemName" placeholder="Item Name" class="border p-2 w-full mb-2" />
+          <input type="number" id="itemQty" placeholder="Quantity" class="border p-2 w-full mb-2" />
+          <input type="date" id="itemDate" value="${new Date().toISOString().split('T')[0]}" class="border p-2 w-full mb-4" />
+          <button onclick="addStock('${type}')" class="bg-green-600 text-white px-4 py-2 rounded w-full">Add Stock</button>`;
+      } else if (type === "report") {
+        html += `<h2 class="text-xl font-semibold mb-4">Stock Report</h2>${generateReport()}`;
+      } else if (type === "dates") {
+        html += `<h2 class="text-xl font-semibold mb-4">Stock Entry Dates</h2>${generateDateTable()}`;
+      }
+      document.getElementById("sectionContent").innerHTML = html;
+    }
+
+    function addStock(type) {
+      const item = document.getElementById("itemName").value.trim();
+      const qty = parseInt(document.getElementById("itemQty").value);
+      const date = document.getElementById("itemDate").value;
+      if (!item || isNaN(qty) || !date) return alert("Please enter all fields.");
+
+      const key = type + "_stock";
+      let data = JSON.parse(localStorage.getItem(key)) || [];
+      data.push({ item, qty, date });
+      localStorage.setItem(key, JSON.stringify(data));
+      alert("Stock Added!");
+      loadSection(type);
+    }
+
+    function generateReport() {
+      const keys = ["open_stock", "in_stock", "out_stock"];
+      const map = {};
+      keys.forEach(k => {
+        const data = JSON.parse(localStorage.getItem(k)) || [];
+        data.forEach(({ item, qty, date }) => {
+          if (!map[item]) map[item] = { open: 0, in: 0, out: 0, dates: {} };
+          if (k === "open_stock") { map[item].open += qty; map[item].dates.open = date; }
+          if (k === "in_stock") { map[item].in += qty; map[item].dates.in = date; }
+          if (k === "out_stock") { map[item].out += qty; map[item].dates.out = date; }
+        });
+      });
+      let table = `<table class="w-full text-sm text-center border">
+        <thead class="bg-gray-200">
+          <tr><th>Item</th><th>Opening</th><th>In</th><th>Out</th><th>Balance</th><th>Last Date</th></tr>
+        </thead><tbody>`;
+      for (let item in map) {
+        const { open, in: ins, out, dates } = map[item];
+        const balance = open + ins - out;
+        const latestDate = dates.out || dates.in || dates.open || "-";
+        table += `<tr class="border-t">
+          <td>${item}</td><td>${open}</td><td>${ins}</td><td>${out}</td><td>${balance}</td><td>${latestDate}</td>
+        </tr>`;
+      }
+      table += `</tbody></table>`;
+      return table;
+    }
+
+    function generateDateTable() {
+      const keys = ["open_stock", "in_stock", "out_stock"];
+      const dateMap = {};
+      keys.forEach(key => {
+        const type = key.split("_")[0];
+        const data = JSON.parse(localStorage.getItem(key)) || [];
+        data.forEach(({ item, date }) => {
+          if (!dateMap[item]) dateMap[item] = { open: "-", in: "-", out: "-" };
+          dateMap[item][type] = date;
+        });
+      });
+      let table = `<table class="w-full text-sm text-center border">
+        <thead class="bg-gray-200">
+          <tr><th>Item</th><th>Opening Date</th><th>In Date</th><th>Out Date</th></tr>
+        </thead><tbody>`;
+      for (let item in dateMap) {
+        const { open, in: inDate, out } = dateMap[item];
+        table += `<tr class="border-t">
+          <td>${item}</td><td>${open}</td><td>${inDate}</td><td>${out}</td>
+        </tr>`;
+      }
+      table += `</tbody></table>`;
+      return table;
+    }
+  </script>
+</body>
+</html>

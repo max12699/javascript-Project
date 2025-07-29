@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link href="./src/output.css" rel="stylesheet" />
+   
+    <title>Typing Game</title>
+  </head>
+
+  <style>
+    .typingtext p span {
+      position: relative;
+    }
+    .typingtext p span.active {
+      color: #fbbf24;
+    }
+    .typingtext p span.correct {
+      color: #4ade80;
+    }
+    .typingtext p span.incorrect {
+      color: #f87171;
+      background-color: #7f1d1d;
+      border-radius: 4px;
+      padding: 0 2px;
+    }
+
+    ::selection {
+      background-color: #fbbf24;
+      color: #0f172a;
+    }
+  </style>
+
+  <body
+    class="min-h-screen flex items-center justify-center bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900 text-white font-sans"
+  >
+    <div
+      class="wrapper w-full max-w-3xl flex flex-col items-center justify-center gap-8 border-2 border-slate-700 rounded-3xl bg-slate-800 shadow-[0_10px_40px_rgba(0,0,0,0.8)] px-10 py-12 m-6"
+    >
+      <!-- Heading -->
+      <h1
+        class="text-4xl font-extrabold text-amber-400 drop-shadow-md tracking-wide"
+      >
+        ⌨️ Typing Speed Game
+      </h1>
+
+      <!-- Input Box -->
+      <input
+        type="text"
+        placeholder="Type here..."
+        class="input-field w-full border-2 border-slate-600 shadow-inner rounded-full px-6 py-4 text-xl text-white bg-slate-700 placeholder:text-slate-400 focus:outline-none focus:ring-4 focus:ring-amber-400 transition-all duration-300"
+      />
+
+      <!-- Content Section -->
+      <div
+        class="content-box w-full flex flex-col items-center gap-6 rounded-2xl bg-slate-700 shadow-inner px-6 py-8"
+      >
+        <!-- Typing Text -->
+        <div
+          class="typingtext text-center text-xl leading-8 font-medium text-slate-100 w-full min-h-[80px]"
+        >
+          <p></p>
+        </div>
+
+        <!-- Stats + Button -->
+        <div
+          class="content flex flex-col md:flex-row items-center justify-between gap-6 w-full"
+        >
+          <!-- Result Stats -->
+          <ul
+            class="result-details grid grid-cols-2 md:grid-cols-4 gap-4 w-full text-center text-base font-semibold"
+          >
+            <li
+              class="time bg-slate-600 rounded-xl py-4 px-5 shadow-md border border-yellow-400"
+            >
+              <p class="text-sm text-yellow-300">Time Left</p>
+              <span class="text-2xl font-bold text-yellow-200">60s</span>
+            </li>
+            <li
+              class="mistake bg-slate-600 rounded-xl py-4 px-5 shadow-md border border-red-400"
+            >
+              <p class="text-sm text-red-300">Mistakes</p>
+              <span class="text-2xl font-bold text-red-200">0</span>
+            </li>
+            <li
+              class="wpm bg-slate-600 rounded-xl py-4 px-5 shadow-md border border-green-400"
+            >
+              <p class="text-sm text-green-300">WPM</p>
+              <span class="text-2xl font-bold text-green-200">0</span>
+            </li>
+            <li
+              class="CPM bg-slate-600 rounded-xl py-4 px-5 shadow-md border border-cyan-400"
+            >
+              <p class="text-sm text-cyan-300">CPM</p>
+              <span class="text-2xl font-bold text-cyan-200">0</span>
+            </li>
+          </ul>
+
+          <!-- Button -->
+          <button
+            class="button mt-6 md:mt-0 w-full md:w-[160px] bg-gradient-to-r from-blue-800 to-black hover:from-blue-600 hover:to-slate-900 text-white text-lg font-semibold py-3 rounded-xl shadow-[0_0_20px_#0ea5e9] hover:shadow-[0_0_30px_#38bdf8] transition-all duration-300 ease-in-out hover:scale-105 active:scale-95"
+          >
+            Try Again
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <script src="./JS1.js"></script>
+  </body>
+</html>

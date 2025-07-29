@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+ <link rel="stylesheet" href="./dist/output.css">
+  <title>Tailwind Calculator</title>
+</head>
+
+<body class="bg-[#db6868]">
+  <div class="h-screen w-full flex justify-center items-center fixed">
+    <div id="calc" class="bg-black p-6 rounded-xl shadow-2xl space-y-4">
+      <h1 id="input" class="text-right text-3xl font-bold text-white min-h-[40px] mb-4 break-words">0</h1>
+
+      <!-- Button Grid -->
+      <div class="grid grid-cols-4 gap-4">
+        <!-- Row 1 -->
+        <button>C</button>
+        <button><</button>
+        <button>%</button>
+        <button class="bg-orange-400 text-white hover:bg-orange-500">/</button>
+
+        <!-- Row 2 -->
+        <button>7</button>
+        <button>8</button>
+        <button>9</button>
+        <button class="bg-orange-400 text-white hover:bg-orange-500">*</button>
+
+        <!-- Row 3 -->
+        <button>4</button>
+        <button>5</button>
+        <button>6</button>
+        <button class="bg-orange-400 text-white hover:bg-orange-500">-</button>
+
+        <!-- Row 4 -->
+        <button>1</button>
+        <button>2</button>
+        <button>3</button>
+        <button class="bg-orange-400 text-white hover:bg-orange-500">+</button>
+
+        <!-- Row 5 -->
+        <button>0</button>
+        <button>00</button>
+        <button>.</button>
+        <button class="bg-green-500 text-white hover:bg-green-600">=</button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const input = document.getElementById('input');
+    const buttons = document.querySelectorAll('button');
+
+    
+
+    buttons.forEach(btn => {
+      btn.classList.add(
+        "bg-gray-200", "border", "border-gray-400",
+        "text-black", "text-xl", "font-bold",
+        "rounded-full", "w-20", "h-20",
+        "hover:bg-gray-300", "transition"
+      );
+
+      btn.addEventListener('click', (e) => {
+        const value = e.target.textContent;
+
+        if (value === 'C') {
+          input.innerText = ""
+        } else if (value === '<') {
+          input.innerText = input.innerText.slice(0, -1);
+        } else if (value === '=') {
+          try {
+            input.innerText = eval(input.innerText).toString();
+          } catch {
+            input.innerText = "Error";
+          }
+        } else {
+          input.innerText += value;
+        }
+        
+        input.scrollLeft = input.scrollWidth
+
+        input.textContent = expression || '0';
+      });
+    });
+  </script>
+</body>
+
+</html>

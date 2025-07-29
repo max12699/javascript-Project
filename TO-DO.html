@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="./src/output.css">
+    <title>TO-do list </title>
+</head>
+  <style>
+    body {
+      background: linear-gradient(135deg, #667eea, #764ba2);
+    }
+    .glass {
+      background: rgba(255, 255, 255, 0.1);
+      -webkit-backdrop-filter: blur(12px);
+      backdrop-filter: blur(12px);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+    }
+  </style>
+<body class="min-h-screen flex items-center justify-center text-white font-sans">
+<div class="glass rounded-3xl p-10  m-8 shadow-2xl animate-fade-in flex flex-col items-center justify-center">
+    <h1 class="text-4xl font-extrabold text-center mb-8 p-4 tracking-tight">✨ To-Do List</h1>
+
+    <form class="flex w-full space-x-2 mb-6" onsubmit="addtask(); return false;">
+        <input id="taskInput" type="text" placeholder="Add a new task..."
+            class="flex-1 px-4 py-2 rounded-xl text-gray-800 focus:outline-none focus:ring-2 focus:ring-indigo-400 bg-white/80 placeholder-gray-400" autocomplete="off" />
+        <button type="submit" class="bg-indigo-500 hover:bg-indigo-600 px-5 py-2 rounded-xl font-semibold transition-colors duration-150 shadow">
+            Add
+        </button>
+    </form>
+
+    <ul id="taskList" class="space-y-3 w-full">
+        <!-- Tasks will be added here -->
+    </ul>
+</div>
+</div>
+
+  <script>
+    function addtask(){
+        const input =document.getElementById("taskInput")
+        const taskText = input.value.trim() //tirm() is a 'string method' in js that removes whitespace from both ends of a string 
+        if (taskText === "") return;
+
+        // LIST 
+        const li = document.createElement("li")
+        li.className ="flex item-centre justify-between bg-white/20 px-4 py-3 rounded-xl hover:bg-white/30 transition-all duration-200"
+
+        //TEXT
+        const text = document.createElement("span")
+        text.textContent = taskText
+        text.className = "flex-1 cursor-pointer"
+        text.onclick = () => {
+            text.classList.toggle ("line-through")
+            text.classList.toggle("text-gray-300")
+        };
+
+        // DELETE BUTTON 
+        const delbtn = document.createElement("button")
+        delbtn.innerHTML = "🗑️"
+        delbtn.className =" text-red-300 hover:text-red-500 transition"
+        delbtn.onclick = () => li.remove()
+
+        li.appendChild(text)
+        li.appendChild(delbtn)
+
+        document.getElementById("taskList").appendChild(li)
+        input.value = ""
+    }
+
+  </script>
+    
+</body>
+</html>

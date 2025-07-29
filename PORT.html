@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en" class="dark">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Portfolio | Manav Thakur</title>
+
+    <!-- Tailwind CSS -->
+    <link href="./src/output.css" rel="stylesheet" />
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Ubuntu:wght@300;400;500;700&display=swap"
+      rel="stylesheet"
+    />
+
+    <!-- Typed.js CDN -->
+    <script src="https://cdn.jsdelivr.net/npm/typed.js@2.0.12"></script>
+
+    <style>
+      body {
+        font-family: "Ubuntu", sans-serif;
+      }
+    </style>
+  </head>
+
+  <body class="bg-gray-900 text-white">
+    <!-- Navigation -->
+    <nav class="w-full bg-gradient-to-r from-slate-900 to-black shadow-md">
+      <header
+        class="max-w-7xl mx-auto flex items-center justify-between px-6 py-5"
+      >
+        <!-- Logo -->
+        <a
+          href="#"
+          class="text-3xl font-extrabold tracking-wider text-cyan-400 hover:text-cyan-300 transition"
+        >
+          PORT<span class="text-amber-400">x</span>FOOLIO
+        </a>
+   <div>
+    <div id="three-dots">
+            <ion-icon name="menu-outline"></ion-icon>
+        </div>
+        <div id="list">
+            <ul>
+                <li>home </li>
+                <li>projects </li>
+                <li> carrer</li>
+                <li>educations</li>
+            </ul>
+   </div>
+      </header>
+    </nav>
+
+    <!-- Hero Section -->
+    <main
+      class="flex items-center justify-center min-h-screen bg-gradient-to-br from-slate-900 to-black px-6"
+    >
+      <div
+        class="text-left max-w-[700px] w-full flex flex-col items-start space-y-10"
+      >
+        <!-- Heading -->
+        <h2 class="text-5xl md:text-6xl font-bold leading-snug">
+          I AM <br />
+          <span
+            id="text"
+            class="text-cyan-400 text-9xl md:text-9xl block leading-tight"
+          ></span>
+        </h2>
+
+        <!-- Paragraph -->
+        <p class="text-lg text-slate-300 leading-relaxed mt-4 mb-6">
+          Welcome to my portfolio! Here you can find my projects, skills, and
+          experiences.<br />
+          Feel free to explore and get in touch!
+        </p>
+
+        <!-- Buttons -->
+        <div class="flex flex-wrap justify-start gap-4 pt-2 mt-4">
+          <button
+            type="button"
+            class="px-6 py-2 bg-blue-800 hover:bg-blue-700 text-white rounded-full font-medium"
+          >
+            Resume
+          </button>
+          <button
+            type="button"
+            class="px-6 py-2 border border-blue-400 text-blue-300 hover:bg-blue-700 hover:text-white rounded-full font-medium shadow-inner"
+          >
+            Contact
+          </button>
+        </div>
+      </div>
+    </main>
+
+    <!-- Typed.js script -->
+    <script>
+      document.addEventListener("DOMContentLoaded", function () {
+        new Typed("#text", {
+          strings: [
+            "MANAV THAKUR",
+            "MERN Stack Developer",
+            "Coder",
+            "Tech Enthusiast",
+          ],
+          typeSpeed: 80,
+          backSpeed: 40,
+          backDelay: 1500,
+          startDelay: 500,
+          loop: true,
+          cursorChar: "|",
+          showCursor: true,
+        });
+      });
+    </script>
+  </body>
+</html>

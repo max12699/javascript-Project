@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en" class="dark">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Form Validation</title>
+    <link href="./dist/output.css" rel="stylesheet" />
+
+    <!-- Google Font -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet" />
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+    </style>
+</head>
+
+<body class="bg-[#0f172a] text-white min-h-screen flex items-center justify-center p-6">
+
+    <div class="w-full max-w-lg bg-gray-900 shadow-2xl rounded-2xl p-10 space-y-8">
+        <h1 class="text-4xl font-bold text-center text-blue-400 tracking-wide">🔐 Registration Form</h1>
+
+        <form id="form" class="space-y-6">
+            <!-- Username -->
+            <div class="space-y-2">
+                <label for="username" class="block text-sm font-semibold text-gray-300">Username</label>
+                <input type="text" id="username" placeholder="Enter your username"
+                    class="w-full px-5 py-3 bg-gray-800 border border-gray-700 rounded-lg focus:ring-2 focus:ring-blue-500 outline-none placeholder:text-gray-400">
+                <span id="error-username" class="text-sm text-red-400"></span>
+            </div>
+
+            <!-- Email -->
+            <div class="space-y-2">
+                <label for="email" class="block text-sm font-semibold text-gray-300">Email</label>
+                <input type="email" id="email" placeholder="Enter your email"
+                    class="w-full px-5 py-3 bg-gray-800 border border-gray-700 rounded-lg focus:ring-2 focus:ring-blue-500 outline-none placeholder:text-gray-400">
+                <span id="error-email" class="text-sm text-red-400"></span>
+            </div>
+
+            <!-- Password -->
+            <div class="space-y-2">
+                <label for="password" class="block text-sm font-semibold text-gray-300">Password</label>
+                <input type="password" id="password" placeholder="Enter your password"
+                    class="w-full px-5 py-3 bg-gray-800 border border-gray-700 rounded-lg focus:ring-2 focus:ring-blue-500 outline-none placeholder:text-gray-400">
+                <span id="error-password" class="text-sm text-red-400"></span>
+            </div>
+
+            <!-- Re-enter Password -->
+            <div class="space-y-2">
+                <label for="reenter-password" class="block text-sm font-semibold text-gray-300">Re-enter
+                    Password</label>
+                <input type="password" id="reenter-password" placeholder="Re-enter your password"
+                    class="w-full px-5 py-3 bg-gray-800 border border-gray-700 rounded-lg focus:ring-2 focus:ring-blue-500 outline-none placeholder:text-gray-400">
+                <span id="error-reenter-password" class="text-sm text-red-400"></span>
+            </div>
+
+            <!-- Submit -->
+            <div>
+                <input type="submit" id="btn" value="Submit"
+                    class="w-full px-5 py-3 bg-blue-600 hover:bg-blue-700 rounded-lg font-semibold text-white tracking-wide transition-all cursor-pointer shadow-md">
+            </div>
+        </form>
+
+        <!-- Fixed onclick with () -->
+        <button type="button" onclick="showUserData()"
+            class="w-full py-2 bg-green-800 hover:bg-green-400 rounded-lg font-semibold transition">
+            VIEW SAVED DATA
+        </button>
+
+        <button type="button" onclick="clearUserData()"
+            class="w-full py-2 bg-red-700 hover:bg-red-500 rounded-lg font-semibold transition">
+            ❌ RESET DATA
+        </button>
+
+        <!-- Output -->
+        <div id="output"
+            class="bg-slate-800 mt-4 p-4 rounded-lg text-white text-sm leading-6 shadow-inner border border-gray-700">
+            <!-- Data will appear here -->
+        </div>
+    </div>
+
+    <script>
+        const form = document.getElementById("form");
+        const user = document.getElementById("username");
+        const email = document.getElementById("email");
+        const pass = document.getElementById("password");
+        const repass = document.getElementById("reenter-password");
+
+        const erroruser = document.getElementById("error-username");
+        const erroremail = document.getElementById("error-email");
+        const errorpass = document.getElementById("error-password");
+        const errorrepass = document.getElementById("error-reenter-password");
+
+        form.addEventListener("submit", function (e) {
+            e.preventDefault();
+
+            let valid = true;
+
+            // Clear previous errors
+            erroruser.textContent = "";
+            erroremail.textContent = "";
+            errorpass.textContent = "";
+            errorrepass.textContent = "";
+
+            // Validation
+            if (user.value.trim() === "") {
+                erroruser.textContent = "Username is required";
+                valid = false;
+            }
+
+            if (email.value.trim() === "") {
+                erroremail.textContent = "Email is required";
+                valid = false;
+            } else if (!email.value.includes("@") || !email.value.includes(".")) {
+                erroremail.textContent = "Enter a valid email";
+                valid = false;
+            }
+
+            if (pass.value.trim().length < 6) {
+                errorpass.textContent = "Password must be at least 6 characters";
+                valid = false;
+            }
+
+            if (repass.value.trim() !== pass.value.trim()) {
+                errorrepass.textContent = "Passwords do not match";
+                valid = false;
+            }
+
+            if (valid) {
+                localStorage.setItem("userdata", JSON.stringify({
+                    username: user.value.trim(),
+                    email: email.value.trim(),
+                    password: pass.value.trim()
+                }));
+                alert("✅ Registration Successful!");
+                form.reset();
+            }
+        });
+
+        // ✅ Properly placed outside the event listener
+        function showUserData() {
+            const output = document.getElementById("output");
+            const data = JSON.parse(localStorage.getItem("userdata"));
+
+            if (data) {
+                output.innerHTML = `
+          👤 <b>Username:</b> ${data.username}<br>
+          📧 <b>Email:</b> ${data.email}<br>
+          🔒 <b>Password:</b> ${data.password}
+        `;
+            } else {
+                output.innerHTML = '❌ No user data found. Please register first.';
+            }
+        }
+
+        function clearUserData() {
+            localStorage.removeItem("userdata")
+            document.getElementById("output").innerHTML = "🔄 Data has been cleared."
+        }
+    </script>
+</body>
+
+</html>

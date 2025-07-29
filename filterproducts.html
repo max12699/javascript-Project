@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="en" class="dark">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Product Filter</title>
+    <link href="./dist/output.css" rel="stylesheet" />
+    <style>
+      .active {
+        outline: 2px solid white;
+        outline-offset: 2px;
+      }
+    </style>
+  </head>
+
+  <body
+    class="bg-[#0f172a] text-white min-h-screen py-8 px-4 sm:px-10 font-sans"
+  >
+    <div class="max-w-6xl mx-auto space-y-6">
+      <!-- Search -->
+      <div class="flex flex-col sm:flex-row gap-3">
+        <input
+          type="text"
+          placeholder="Search..."
+          id="searchIN"
+          class="w-full sm:flex-1 px-4 py-3 bg-gray-800 border border-gray-700 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 placeholder:text-gray-400"
+        />
+        <button
+          id="searchbtn"
+          class="bg-blue-600 hover:bg-blue-700 px-6 py-3 rounded-lg font-semibold transition-all duration-300"
+        >
+          SEARCH
+        </button>
+      </div>
+
+      <!-- Category Buttons -->
+      <div class="flex flex-wrap gap-3">
+        <button
+          type="button"
+          data-category="All"
+          class="category-btn active bg-indigo-500 hover:bg-indigo-600 px-5 py-2 rounded-lg font-medium"
+        >
+          All Product
+        </button>
+        <button
+          type="button"
+          data-category="Electronics"
+          class="category-btn bg-purple-500 hover:bg-purple-600 px-5 py-2 rounded-lg font-medium"
+        >
+          Electronics
+        </button>
+        <button
+          type="button"
+          data-category="Clothing"
+          class="category-btn bg-pink-500 hover:bg-pink-600 px-5 py-2 rounded-lg font-medium"
+        >
+          Clothing
+        </button>
+        <button
+          type="button"
+          data-category="Home & Garden"
+          class="category-btn bg-green-500 hover:bg-green-600 px-5 py-2 rounded-lg font-medium"
+        >
+          Home & Garden
+        </button>
+      </div>
+
+      <!-- Product Grid -->
+      <div id="productLIST" class="grid grid-cols-1 md:grid-cols-2 gap-6 mt-6">
+        <!-- Product Card Template -->
+        <div
+          class="product-item group flex items-center gap-4 bg-gray-800/60 backdrop-blur-lg hover:bg-gray-700/80 transition-all p-4 rounded-xl shadow-lg"
+          data-category="Electronics"
+        >
+          <img
+            src="https://images.unsplash.com/photo-1511707171634-5f897ff02aa9?auto=format&fit=crop&w=100&q=80"
+            alt="Smartphone"
+            class="w-16 h-16 rounded-full object-cover ring-2 ring-indigo-500 group-hover:ring-offset-2 transition"
+          />
+          <div class="flex flex-col">
+            <h3 class="text-lg font-bold group-hover:tracking-wider transition">
+              SMARTPHONE
+            </h3>
+            <p class="text-sm text-gray-300">
+              Latest mobile device with smart features.
+            </p>
+          </div>
+        </div>
+
+        <div
+          class="product-item group flex items-center gap-4 bg-gray-800/60 backdrop-blur-lg hover:bg-gray-700/80 transition-all p-4 rounded-xl shadow-lg"
+          data-category="Clothing"
+        >
+          <img
+            src="https://i.etsystatic.com/23783648/c/2000/2000/277/0/il/d44b0d/5442258173/il_600x600.5442258173_1e8f.jpg"
+            alt="T-Shirt"
+            class="w-16 h-16 rounded-full object-cover ring-2 ring-pink-500 group-hover:ring-offset-2 transition"
+          />
+          <div class="flex flex-col">
+            <h3 class="text-lg font-bold group-hover:tracking-wider transition">
+              T-SHIRTS
+            </h3>
+            <p class="text-sm text-gray-300">
+              Casual cotton t-shirts for men and women.
+            </p>
+          </div>
+        </div>
+
+        <div
+          class="product-item group flex items-center gap-4 bg-gray-800/60 backdrop-blur-lg hover:bg-gray-700/80 transition-all p-4 rounded-xl shadow-lg"
+          data-category="Electronics"
+        >
+          <img
+            src="https://images.unsplash.com/photo-1517336714731-489689fd1ca8?auto=format&fit=crop&w=100&q=80"
+            alt="Laptop"
+            class="w-16 h-16 rounded-full object-cover ring-2 ring-purple-500 group-hover:ring-offset-2 transition"
+          />
+          <div class="flex flex-col">
+            <h3 class="text-lg font-bold group-hover:tracking-wider transition">
+              LAPTOP
+            </h3>
+            <p class="text-sm text-gray-300">
+              Powerful performance for productivity & gaming.
+            </p>
+          </div>
+        </div>
+
+        <div
+          class="product-item group flex items-center gap-4 bg-gray-800/60 backdrop-blur-lg hover:bg-gray-700/80 transition-all p-4 rounded-xl shadow-lg"
+          data-category="Home & Garden"
+        >
+          <img
+            src="https://i.etsystatic.com/56342137/r/il/7b7f74/6906576037/il_600x600.6906576037_mp4z.jpg"
+            alt="Utensils"
+            class="w-16 h-16 rounded-full object-cover ring-2 ring-green-400 group-hover:ring-offset-2 transition"
+          />
+          <div class="flex flex-col">
+            <h3 class="text-lg font-bold group-hover:tracking-wider transition">
+              UTENSILS
+            </h3>
+            <p class="text-sm text-gray-300">
+              Kitchen tools and cookware essentials.
+            </p>
+          </div>
+        </div>
+
+        <div
+          class="product-item group flex items-center gap-4 bg-gray-800/60 backdrop-blur-lg hover:bg-gray-700/80 transition-all p-4 rounded-xl shadow-lg"
+          data-category="Clothing"
+        >
+          <img
+            src="https://i.etsystatic.com/51497996/r/il/20b708/6163237073/il_600x600.6163237073_7c76.jpg"
+            alt="Jeans"
+            class="w-16 h-16 rounded-full object-cover ring-2 ring-pink-400 group-hover:ring-offset-2 transition"
+          />
+          <div class="flex flex-col">
+            <h3 class="text-lg font-bold group-hover:tracking-wider transition">
+              JEANS
+            </h3>
+            <p class="text-sm text-gray-300">
+              Denim jeans with a comfortable fit.
+            </p>
+          </div>
+        </div>
+
+        <div
+          class="product-item group flex items-center gap-4 bg-gray-800/60 backdrop-blur-lg hover:bg-gray-700/80 transition-all p-4 rounded-xl shadow-lg"
+          data-category="Home & Garden"
+        >
+          <img
+            src="https://i.etsystatic.com/23455839/r/il/bb405a/6299355390/il_600x600.6299355390_d86x.jpg"
+            alt="Flower Pots"
+            class="w-16 h-16 rounded-full object-cover ring-2 ring-green-300 group-hover:ring-offset-2 transition"
+          />
+          <div class="flex flex-col">
+            <h3 class="text-lg font-bold group-hover:tracking-wider transition">
+              FLOWER POTS
+            </h3>
+            <p class="text-sm text-gray-300">
+              Decorative plant pots for your garden.
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <script>
+      const productItems = document.querySelectorAll(".product-item");
+      const categoryButtons = document.querySelectorAll(".category-btn");
+      const searchInput = document.getElementById("searchIN");
+      const searchBtn = document.getElementById("searchbtn");
+
+      function filterProducts() {
+        const searchTerm = searchInput.value.toLowerCase();
+        const activeBtn = document.querySelector(".category-btn.active");
+        const activeCategory = activeBtn ? activeBtn.dataset.category : "All";
+
+        productItems.forEach((item) => {
+          const title = item.querySelector("h3").innerText.toLowerCase();
+          const category = item.dataset.category;
+
+          const matchesSearch = title.includes(searchTerm) || searchTerm === "";
+          const matchesCategory =
+            activeCategory === "All" || category === activeCategory;
+
+          item.style.display =
+            matchesSearch && matchesCategory ? "flex" : "none";
+        });
+      }
+
+      function setCategory(e) {
+        categoryButtons.forEach((btn) => btn.classList.remove("active"));
+        e.target.classList.add("active");
+        filterProducts();
+      }
+
+      // Event Listeners
+      categoryButtons.forEach((btn) =>
+        btn.addEventListener("click", setCategory)
+      );
+      searchBtn.addEventListener("click", filterProducts);
+      searchInput.addEventListener("input", filterProducts);
+
+      filterProducts(); // Initial display
+    </script>
+  </body>
+</html>

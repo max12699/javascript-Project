@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Colorful Sidebar</title>
+
+    <!-- Tailwind CSS -->
+    <link rel="stylesheet" href="./src/output.css" />
+
+    <!-- Ionicons -->
+    <script
+      type="module"
+      src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"
+    ></script>
+    <script
+      nomodule
+      src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"
+    ></script>
+
+    <!-- Extra Styling -->
+    <style>
+      body {
+        font-family: "Segoe UI", sans-serif;
+      }
+    </style>
+  </head>
+
+  <body
+    class="m-0 p-0 box-border bg-gradient-to-br from-[#0f172a] to-[#1e293b] text-white relative overflow-x-hidden"
+  >
+    <!-- Open Icon -->
+    <div class="w-screen h-screen flex justify-center items-center">
+      <div
+        id="dot"
+        class="text-4xl absolute top-5 left-5 text-cyan-300 cursor-pointer hover:scale-110 transition"
+      >
+        <ion-icon name="ellipsis-vertical-outline"></ion-icon>
+      </div>
+      <h1 class="text-3xl font-bold text-white">Welcome to the Sidebar Demo</h1>
+    </div>
+
+    <!-- Sidebar -->
+    <div
+      id="sidebar"
+      class="fixed top-0 left-0 h-screen w-[70vw] max-w-[300px] bg-gradient-to-b from-blue-900 via-indigo-900 to-slate-900 z-50 transform -translate-x-full transition-transform duration-300 shadow-2xl rounded-r-2xl backdrop-blur-lg"
+    >
+      <!-- Close Icon -->
+      <div
+        id="cut"
+        class="absolute top-4 right-4 text-white text-3xl cursor-pointer hover:rotate-90 transition"
+      >
+        <ion-icon name="close-circle-outline"></ion-icon>
+      </div>
+
+      <!-- Navigation -->
+      <ul
+        class="mt-24 px-6 space-y-6 text-xl font-semibold text-white text-center"
+      >
+        <li>
+          <a
+            href="#"
+            class="block py-2 px-4 rounded hover:bg-white hover:text-black transition duration-200 shadow"
+          >
+            🏠 HOME
+          </a>
+        </li>
+        <li>
+          <a
+            href="#"
+            class="block py-2 px-4 rounded hover:bg-white hover:text-black transition duration-200 shadow"
+          >
+            📁 PROJECT
+          </a>
+        </li>
+        <li>
+          <a
+            href="#"
+            class="block py-2 px-4 rounded hover:bg-white hover:text-black transition duration-200 shadow"
+          >
+            🛠️ SERVICES
+          </a>
+        </li>
+        <li>
+          <a
+            href="#"
+            class="block py-2 px-4 rounded hover:bg-white hover:text-black transition duration-200 shadow"
+          >
+            🎓 EDUCATION
+          </a>
+        </li>
+      </ul>
+    </div>
+
+    <!-- JS Logic -->
+    <script>
+      const dot = document.getElementById("dot");
+      const sidebar = document.getElementById("sidebar");
+      const cut = document.getElementById("cut");
+
+      dot.addEventListener("click", () => {
+        sidebar.classList.remove("-translate-x-full");
+      });
+
+      cut.addEventListener("click", () => {
+        sidebar.classList.add("-translate-x-full");
+      });
+
+      //optional
+      document.addEventListener("click", (e) => {
+        if (!sidebar.contains(e.target) && !dot.contains(e.target)) {
+          sidebar.classList.add("-translate-x-full");
+        }
+      });
+    </script>
+  </body>
+</html>
